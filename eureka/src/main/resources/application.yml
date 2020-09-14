@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: eureka1
+  application:
+    name: eureka
+eureka:
+  server:
+    enable-self-preservation: false
+---
+#eureka1
+spring:
+  profiles: eureka1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+  #    register-with-eureka: false
+server:
+  port: 8000
+
+---
+#eureka2
+spring:
+  profiles: eureka2
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+  #    register-with-eureka: false
+server:
+  port: 8001
+
+
