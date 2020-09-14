@@ -7,3 +7,6 @@ my first project for spring cloud frame.
 >order service for produce
 >>provide some service 
 >>>e.g. create(search/detele/update) order/order detail;
++ common:
+>some common patrs
+>>e.g. model / constant ...
