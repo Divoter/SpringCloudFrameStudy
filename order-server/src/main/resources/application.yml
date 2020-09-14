@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: orderserver
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+logging:
+  level:
+    com.divoter.orderserver: debug
