@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: zuulfilter #微服务名称
+  profiles:
+    active: test1   #当前环境
+  jackson:  #json格式化配置
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+
+eureka:
+  client:
+    service-url:  #注册中心
+      defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+#输出sql日志 debug用
+logging:
+  level:
+    com.divoter.${spring.application.name}: debug
