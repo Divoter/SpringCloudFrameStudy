@@ -1,4 +1,5 @@
-package com.divoter.generator;
+package com.divoter.productserver;
+
 
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateExceptionHandler;
@@ -13,29 +14,32 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.divoter.core.constant.ProjectConstant.*;
-
+import static com.divoter.productserver.core.ProjectConstant.*;
 
 /**
  * 代码生成器，根据数据表名称生成对应的Model、Mapper、Service、Controller简化开发。
  */
 public class CodeGenerator {
+
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_URL = "jdbc:mysql://192.168.187.128:3306/SpringCloud_Sell";
+    private static final String JDBC_URL = "jdbc:mysql://192.168.0.111:3306/SpringCloud_Sell";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "root";
-    private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
+    private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 
+    //项目名称
+    private static final String PROJECT_NAME="/product-server";
+
+    public static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".core.Mapper";//Mapper插件基础接口的完全限定名
     private static final String PROJECT_PATH = System.getProperty("user.dir");//项目在硬盘上的基础路径
-    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/order-server/src/test/resources/generator/template";//模板位置
+    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + PROJECT_NAME+"/src/test/resources/generator/template";//模板位置
 
-    private static final String JAVA_PATH = "/order-server/src/main/java"; //java文件路径
-    private static final String JAVA_MODEL_PATH = "/common/src/main/java"; //java文件路径
-    private static final String RESOURCES_PATH = "/order-server/src/main/resources";//资源文件路径
+    private static final String JAVA_PATH =  PROJECT_NAME+"/src/main/java"; //java文件路径
+    private static final String RESOURCES_PATH =  PROJECT_NAME+"/src/main/resources";//资源文件路径
 
-    private static final String PACKAGE_PATH_SERVICE = packageConvertPath(ORDER_SERVER_SERVICE_PACKAGE);//生成的Service存放路径
-    private static final String PACKAGE_PATH_SERVICE_IMPL = packageConvertPath(ORDER_SERVER_SERVICE_IMPL_PACKAGE);//生成的Service实现存放路径
-    private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(ORDER_SERVER_CONTROLLER_PACKAGE);//生成的Controller存放路径
+    private static final String PACKAGE_PATH_SERVICE = packageConvertPath(SERVICE_PACKAGE);//生成的Service存放路径
+    private static final String PACKAGE_PATH_SERVICE_IMPL = packageConvertPath(SERVICE_IMPL_PACKAGE);//生成的Service实现存放路径
+    private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(CONTROLLER_PACKAGE);//生成的Controller存放路径
 
     private static final String AUTHOR = "divoter";//@author
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());//@date
@@ -44,8 +48,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         useRestFul = true;
-        genCode("order_detail");
-        //genCodeByCustomModelName("输入表名","输入自定义Model名称");
+        genCode("product_info","product_category");
     }
 
     /**
@@ -94,9 +97,8 @@ public class CodeGenerator {
         context.addPluginConfiguration(pluginConfiguration);
 
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_MODEL_PATH);
-//        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-        javaModelGeneratorConfiguration.setTargetPackage(ORDER_SERVER_MODEL_PACKAGE);
+        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
+        javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE);
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
 
         SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
@@ -106,7 +108,7 @@ public class CodeGenerator {
 
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
         javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-        javaClientGeneratorConfiguration.setTargetPackage(ORDER_SERVER_MAPPER_PACKAGE);
+        javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE);
         javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
 
@@ -151,7 +153,7 @@ public class CodeGenerator {
             String modelNameUpperCamel = StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) : modelName;
             data.put("modelNameUpperCamel", modelNameUpperCamel);
             data.put("modelNameLowerCamel", tableNameConvertLowerCamel(tableName));
-            data.put("basePackage", ORDER_SERVER_BASE_PACKAGE);
+            data.put("basePackage", BASE_PACKAGE);
 
             File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE + modelNameUpperCamel + "Service.java");
             if (!file.getParentFile().exists()) {
@@ -184,7 +186,7 @@ public class CodeGenerator {
             data.put("baseRequestMapping", modelNameConvertMappingPath(modelNameUpperCamel));
             data.put("modelNameUpperCamel", modelNameUpperCamel);
             data.put("modelNameLowerCamel", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, modelNameUpperCamel));
-            data.put("basePackage", ORDER_SERVER_BASE_PACKAGE);
+            data.put("basePackage", BASE_PACKAGE);
 
             File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_CONTROLLER + modelNameUpperCamel + "Controller.java");
             if (!file.getParentFile().exists()) {
