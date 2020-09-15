@@ -7,6 +7,9 @@ my first project for spring cloud frame.
 >order service for produce
 >>provide some service 
 >>>e.g. create(search/detele/update) order/order detail;
-+ common:
++ constant-common:
 >some common patrs
->>e.g. model / constant ...
+>>e.g.project constant /return code ...
++ mybatis-common:
+>mybatis mapper plugin
+>>e.g. Mapper-Plugin/model/Service-Plugin/serviceException ...
