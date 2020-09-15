@@ -1,6 +1,6 @@
 package ${basePackage}.service;
-import core.model.${modelNameUpperCamel};
-import ${basePackage}.core.Service;
+import com.divoter.core.model.${modelNameUpperCamel};
+import com.divoter.core.Service;
 
 
 /**

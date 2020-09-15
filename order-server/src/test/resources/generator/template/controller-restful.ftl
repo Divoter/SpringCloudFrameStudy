@@ -1,8 +1,8 @@
 package ${basePackage}.controller;
 
-import core.Result;
-import core.ResultGenerator;
-import core}.model.${modelNameUpperCamel};
+import com.divoter.core.Result;
+import com.divoter.core.ResultGenerator;
+import com.divoter.core.model.${modelNameUpperCamel};
 import ${basePackage}.service.${modelNameUpperCamel}Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

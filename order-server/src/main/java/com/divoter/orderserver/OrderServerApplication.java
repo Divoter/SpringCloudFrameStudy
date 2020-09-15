@@ -6,7 +6,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-//@ComponentScan(basePackages = {"com.divoter"})
+//@ComponentScan(basePackages = {"com.divoter.core","com.divoter.orderserver"})
 public class OrderServerApplication {
 
     public static void main(String[] args) {
