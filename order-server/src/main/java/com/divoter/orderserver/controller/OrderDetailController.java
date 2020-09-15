@@ -1,8 +1,8 @@
 package com.divoter.orderserver.controller;
 
-import com.divoter.core.Result;
-import com.divoter.core.ResultGenerator;
-import com.divoter.core.model.OrderDetail;
+import com.divoter.orderserver.core.Result;
+import com.divoter.orderserver.core.ResultGenerator;
+import com.divoter.orderserver.model.OrderDetail;
 import com.divoter.orderserver.service.OrderDetailService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

@@ -1,8 +1,8 @@
 package com.divoter.orderserver.controller;
 
-import com.divoter.core.Result;
-import com.divoter.core.ResultGenerator;
-import com.divoter.core.model.OrderMaster;
+import com.divoter.orderserver.core.Result;
+import com.divoter.orderserver.core.ResultGenerator;
+import com.divoter.orderserver.model.OrderMaster;
 import com.divoter.orderserver.service.OrderMasterService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by divoter on 2020/09/14.
+* Created by divoter on 2020/09/15.
 */
 @RestController
 @RequestMapping("/api/v1/order/master")

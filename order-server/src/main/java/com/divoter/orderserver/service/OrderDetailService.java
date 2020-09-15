@@ -1,6 +1,6 @@
 package com.divoter.orderserver.service;
-import com.divoter.core.model.OrderDetail;
-import com.divoter.core.Service;
+import com.divoter.orderserver.model.OrderDetail;
+import com.divoter.orderserver.core.Service;
 
 
 /**

@@ -13,7 +13,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-import static com.divoter.core.constant.ProjectConstant.*;
+import static com.divoter.orderserver.core.ProjectConstant.*;
 
 /**
  * Mybatis & Mapper & PageHelper 配置
@@ -25,7 +25,7 @@ public class MybatisConfigurer {
     public SqlSessionFactory sqlSessionFactoryBean(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         factory.setDataSource(dataSource);
-        factory.setTypeAliasesPackage(ORDER_SERVER_MODEL_PACKAGE);
+        factory.setTypeAliasesPackage(MODEL_PACKAGE);
 
         //配置分页插件，详情请查阅官方文档
         PageHelper pageHelper = new PageHelper();
@@ -48,7 +48,7 @@ public class MybatisConfigurer {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
-        mapperScannerConfigurer.setBasePackage(ORDER_SERVER_MODEL_PACKAGE);
+        mapperScannerConfigurer.setBasePackage(MAPPER_PACKAGE);
 
         //配置通用Mapper，详情请查阅官方文档
         Properties properties = new Properties();
