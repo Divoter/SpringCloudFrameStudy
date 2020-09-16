@@ -21,9 +21,9 @@ eureka:
       defaultZone: http://localhost:8000/eureka/      #,http://localhost:8001/eureka/
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
+#    instance-id: ${spring.application.name}:${server.port}
 
 #输出sql日志 debug用
-logging:
-  level:
-    com.divoter.orderserver: debug
+#logging:
+#  level:
+#    com.divoter.orderserver: debug
