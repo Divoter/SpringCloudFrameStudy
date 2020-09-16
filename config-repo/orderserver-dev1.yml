@@ -8,9 +8,9 @@ spring:
     password: root
     druid:
       connection-init-sqls: set names utf8mb4;
-#  rabbitmq:  #rabbitmq配置
-#    host: 192.168.187.128
-#    username: admin
-#    password: admin
-#    port: 5672
+  rabbitmq:  #rabbitmq配置
+    host: 192.168.187.128
+    username: admin
+    password: admin
+    port: 5672
 env: dev1
