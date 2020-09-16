@@ -7,8 +7,13 @@ spring:
         git:
           uri: https://github.com/Divoter/SpringCloudFrameStudy.git
           search-paths: /config-repo
-          #À­È¡µÄÅäÖÃÎÄ¼ş´æ·ÅÎ»ÖÃ(±¾µØ²Ö¿â)
+          #æœ¬åœ°ä»“åº“åœ°å€
           basedir: D:\GitHubRepository\SpringCloudFrameStudy
+  rabbitmq:
+    port: 5672
+    host: 192.168.187.128
+    username: admin
+    password: admin
 eureka:
   client:
     service-url:
@@ -18,3 +23,14 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
 server:
   port: 8686
+
+#ä½¿æ—¥å¿—æ˜¾ç¤ºæ¥å£æ˜ å°„ä¿¡æ¯
+logging:
+  level:
+    org.springframework.web: TRACE
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include:
+#          - /actuator/bus-refresh
