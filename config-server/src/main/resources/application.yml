@@ -11,9 +11,11 @@ spring:
           basedir: D:\GitHubRepository\SpringCloudFrameStudy
   rabbitmq:
     port: 5672
-    host: 192.168.187.128
+#    host: 192.168.187.128
+    host: 192.168.0.111
     username: admin
     password: admin
+
 eureka:
   client:
     service-url:
@@ -28,9 +30,8 @@ server:
 logging:
   level:
     org.springframework.web: TRACE
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include:
-#          - /actuator/bus-refresh
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
