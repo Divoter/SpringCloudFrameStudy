@@ -13,7 +13,7 @@ spring:
     username: admin
     password: admin
     port: 5672
-env: test1
+env: test11
 gril:
-  age: 22
+  age: 221
   name: lili
