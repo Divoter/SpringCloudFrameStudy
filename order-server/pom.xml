@@ -119,6 +119,18 @@
 			<artifactId>guava</artifactId>
 <!--			<scope>test</scope>-->
 		</dependency>
+		<!--	使用配置中心	-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-client</artifactId>
+		</dependency>
+		<!--	使用rabbitmq bus实现配置自动刷新	-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+		</dependency>
+
+
 	</dependencies>
 	<repositories>
 		<repository>

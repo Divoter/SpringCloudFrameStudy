@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: orderserver  #微服务名称 与配置中心 文件前缀一致  比如 orderserver-dev1.yml
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIGSERVER
+      profile: dev1 #与配置中心 文件后缀一致  比如 orderserver-dev1.yml
+#一直报错Could not locate configserver via discovery
+#eureka的地址为http://localhost:8761/eureka/
+#猜测是服务需要先注册到eureka再去寻找configserver，所以将eureka配置从配置中心 拿到这里来
+
+eureka:
+  client:
+    service-url:  #注册中心
+      defaultZone: http://localhost:8000/eureka/      #,http://localhost:8001/eureka/
+  instance:
+    prefer-ip-address: true
+#    instance-id: ${spring.application.name}:${server.port}
