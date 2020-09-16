@@ -18,7 +18,7 @@ env:
 eureka:
   client:
     service-url:  #注册中心
-      defaultZone: http://localhost:8000/eureka/ #,http://localhost:8001/eureka/
+      defaultZone: http://localhost:8000/eureka/      #,http://localhost:8001/eureka/
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
