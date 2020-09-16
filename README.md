@@ -26,3 +26,5 @@ my first project for spring cloud frame.
 + **zuul-filter**
 >provid gateway service.At present, only forwarding function is provided, 
 >and filtering related functions will be implemented later
++ **config-server**
+>configuration center for manage profiles
