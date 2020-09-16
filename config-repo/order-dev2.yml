@@ -13,3 +13,15 @@ spring:
 #    username: admin
 #    password: admin
 #    port: 5672
+eureka:
+  client:
+    service-url:  #注册中心
+      defaultZone: http://localhost:8000/eureka/ #,http://localhost:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+#输出sql日志 debug用
+logging:
+  level:
+    com.divoter.${spring.application.name}: debug
