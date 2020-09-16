@@ -13,13 +13,4 @@ spring:
 #    username: admin
 #    password: admin
 #    port: 5672
-env: 
-  dev1
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${server.port}
-
-#输出sql日志 debug用
-#logging:
-#  level:
-#    com.divoter.orderserver: debug
+env: dev1
