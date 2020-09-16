@@ -4,3 +4,7 @@ spring:
     time-zone: GMT+8
     serialization:
       write-dates-as-timestamps: false
+#输出sql日志 debug用
+logging:
+  level:
+    com.divoter.orderserver: debug
