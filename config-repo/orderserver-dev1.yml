@@ -26,4 +26,4 @@ eureka:
 #输出sql日志 debug用
 logging:
   level:
-    com.divoter.${spring.application.name}: debug
+    com.divoter.orderserver: debug
