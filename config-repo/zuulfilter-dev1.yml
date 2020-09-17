@@ -1,0 +1,21 @@
+server:
+  port: 8010
+spring: 
+  rabbitmq:  #rabbitmq配置
+    host: 192.168.187.128
+    username: admin
+    password: admin
+    port: 5672
+  
+#自定义路由转发，默认通过微服务名称转发
+zuul:
+  routes:
+    myProduct: #自定义路由转发名称名称,随便定义
+      # /myProduct/list --> productserver/list
+      path: /myProduct/** #定义要转发的路由规则
+      serviceId: productserver #转发到的微服务名称
+#  ignored-patterns: #排除某些路由
+#    - /myProduct/list
+#    - /productserver/list
+#    - /**/product/info
+  sensitive-headers:  #空设置，可以允许cookie传递
