@@ -1,7 +1,7 @@
 package com.divoter.productserver.controller;
 
-import com.divoter.productserver.core.Result;
-import com.divoter.productserver.core.ResultGenerator;
+import com.divoter.core.Result;
+import com.divoter.core.ResultGenerator;
 import com.divoter.productserver.model.ProductCategory;
 import com.divoter.productserver.service.ProductCategoryService;
 import com.github.pagehelper.PageHelper;
@@ -12,8 +12,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by divoter on 2020/09/15.
-*/
+ * Created by divoter on 2020/09/15.
+ */
 @RestController
 @RequestMapping("/api/v1/product/category")
 public class ProductCategoryController {

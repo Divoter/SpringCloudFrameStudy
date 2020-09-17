@@ -28,14 +28,15 @@ public class CodeGenerator {
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 
     //项目名称
-    private static final String PROJECT_NAME="/product-server";
+    private static final String PROJECT_NAME = "/product-server";
 
     public static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".core.Mapper";//Mapper插件基础接口的完全限定名
     private static final String PROJECT_PATH = System.getProperty("user.dir");//项目在硬盘上的基础路径
-    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + PROJECT_NAME+"/src/test/resources/generator/template";//模板位置
+    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + PROJECT_NAME + "/src/test/resources/generator" +
+            "/template";//模板位置
 
-    private static final String JAVA_PATH =  PROJECT_NAME+"/src/main/java"; //java文件路径
-    private static final String RESOURCES_PATH =  PROJECT_NAME+"/src/main/resources";//资源文件路径
+    private static final String JAVA_PATH = PROJECT_NAME + "/src/main/java"; //java文件路径
+    private static final String RESOURCES_PATH = PROJECT_NAME + "/src/main/resources";//资源文件路径
 
     private static final String PACKAGE_PATH_SERVICE = packageConvertPath(SERVICE_PACKAGE);//生成的Service存放路径
     private static final String PACKAGE_PATH_SERVICE_IMPL = packageConvertPath(SERVICE_IMPL_PACKAGE);//生成的Service实现存放路径
@@ -48,7 +49,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         useRestFul = true;
-        genCode("product_info","product_category");
+        genCode("product_info", "product_category");
     }
 
     /**
@@ -150,12 +151,14 @@ public class CodeGenerator {
             Map<String, Object> data = new HashMap<>();
             data.put("date", DATE);
             data.put("author", AUTHOR);
-            String modelNameUpperCamel = StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) : modelName;
+            String modelNameUpperCamel = StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) :
+                    modelName;
             data.put("modelNameUpperCamel", modelNameUpperCamel);
             data.put("modelNameLowerCamel", tableNameConvertLowerCamel(tableName));
             data.put("basePackage", BASE_PACKAGE);
 
-            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE + modelNameUpperCamel + "Service.java");
+            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE + modelNameUpperCamel + "Service" +
+                    ".java");
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -163,7 +166,8 @@ public class CodeGenerator {
                     new FileWriter(file));
             System.out.println(modelNameUpperCamel + "Service.java 生成成功");
 
-            File file1 = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE_IMPL + modelNameUpperCamel + "ServiceImpl.java");
+            File file1 = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE_IMPL + modelNameUpperCamel +
+                    "ServiceImpl.java");
             if (!file1.getParentFile().exists()) {
                 file1.getParentFile().mkdirs();
             }
@@ -182,13 +186,15 @@ public class CodeGenerator {
             Map<String, Object> data = new HashMap<>();
             data.put("date", DATE);
             data.put("author", AUTHOR);
-            String modelNameUpperCamel = StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) : modelName;
+            String modelNameUpperCamel = StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) :
+                    modelName;
             data.put("baseRequestMapping", modelNameConvertMappingPath(modelNameUpperCamel));
             data.put("modelNameUpperCamel", modelNameUpperCamel);
             data.put("modelNameLowerCamel", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, modelNameUpperCamel));
             data.put("basePackage", BASE_PACKAGE);
 
-            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_CONTROLLER + modelNameUpperCamel + "Controller.java");
+            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_CONTROLLER + modelNameUpperCamel +
+                    "Controller.java");
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -209,7 +215,8 @@ public class CodeGenerator {
     }
 
     private static freemarker.template.Configuration getConfiguration() throws IOException {
-        freemarker.template.Configuration cfg = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_23);
+        freemarker.template.Configuration cfg =
+                new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_23);
         cfg.setDirectoryForTemplateLoading(new File(TEMPLATE_FILE_PATH));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);

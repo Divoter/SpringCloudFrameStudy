@@ -1,19 +1,19 @@
 package com.divoter.productserver.controller;
 
-import com.divoter.productserver.core.Result;
-import com.divoter.productserver.core.ResultGenerator;
+import com.divoter.core.Result;
+import com.divoter.core.ResultGenerator;
 import com.divoter.productserver.model.ProductInfo;
 import com.divoter.productserver.service.ProductInfoService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
-* Created by divoter on 2020/09/15.
-*/
+ * Created by divoter on 2020/09/15.
+ */
 @RestController
 @RequestMapping("/api/v1/product/info")
 public class ProductInfoController {
@@ -45,10 +45,20 @@ public class ProductInfoController {
     }
 
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<ProductInfo> list = productInfoService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size
+            , String mnflg,@RequestParam(required = false) String id , @RequestParam(required = false) String name
+            , @RequestParam(required = false) Integer status , @RequestParam(required = false) String categoryName
+            , @RequestParam(required = false) List<String> ids
+    ) {
+       Map<String,Object> map = new HashMap<>();
+       map.put("page",page);
+       map.put("size",size);
+       map.put("methodName",mnflg);
+       map.put("id",id);
+       map.put("name",name);
+       map.put("id",status);
+       map.put("categoryName",categoryName);
+       map.put("ids",ids);
+       return productInfoService.list(map);
     }
 }
