@@ -33,8 +33,14 @@
 		<freemarker.version>2.3.30</freemarker.version>
 		<common.lang.version>2.6</common.lang.version>
 		<fastjson.version>1.2.44</fastjson.version>
+		<constant.common.version>1.0</constant.common.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.divoter</groupId>
+			<artifactId>constant-common</artifactId>
+			<version>${constant.common.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>

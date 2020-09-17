@@ -1,8 +1,10 @@
 package com.divoter.orderserver.model;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "order_detail")
 public class OrderDetail {
@@ -201,4 +203,5 @@ public class OrderDetail {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
 }

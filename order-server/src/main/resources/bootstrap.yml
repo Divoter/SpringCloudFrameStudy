@@ -6,10 +6,7 @@ spring:
       discovery:
         enabled: true
         service-id: CONFIGSERVER
-      profile: test1 #与配置中心 文件后缀一致  比如 orderserver-dev1.yml
-    bus:
-      #Workaround for defect in https://github.com/spring-cloud/spring-cloud-bus/issues/124
-      id: ${vcap.application.name:${spring.application.name:application}}:${vcap.application.instance_index:${spring.profiles.active:${local.server.port:${server.port:0}}}}:${vcap.application.instance_id:${random.value}}
+      profile: dev1 #与配置中心 文件后缀一致  比如 orderserver-dev1.yml
 #一直报错Could not locate configserver via discovery
 #eureka的地址为http://localhost:8761/eureka/
 #猜测是服务需要先注册到eureka再去寻找configserver，所以将eureka配置从配置中心 拿到这里来
@@ -20,4 +17,4 @@ eureka:
       defaultZone: http://localhost:8000/eureka/      #,http://localhost:8001/eureka/
   instance:
     prefer-ip-address: true
-#    instance-id: ${spring.application.name}:${server.port}
+    instance-id: ${spring.application.name}:${server.port}

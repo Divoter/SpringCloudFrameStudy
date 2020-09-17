@@ -1,14 +1,20 @@
 package com.divoter.orderserver.controller;
 
-import com.divoter.orderserver.core.Result;
-import com.divoter.orderserver.core.ResultGenerator;
+import com.divoter.core.Result;
+import com.divoter.core.ResultGenerator;
+import com.divoter.form.OrderForm;
 import com.divoter.orderserver.model.OrderMaster;
 import com.divoter.orderserver.service.OrderMasterService;
+import com.divoter.util.ErrorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -17,12 +23,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/order/master")
 public class OrderMasterController {
+
+    private final static Logger logger = LoggerFactory.getLogger(OrderMasterController.class);
+
     @Resource
     private OrderMasterService orderMasterService;
 
     @PostMapping
-    public Result add(@RequestBody OrderMaster orderMaster) {
-        orderMasterService.save(orderMaster);
+    public Result add(@RequestBody @Valid OrderForm orderForm, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return ResultGenerator.genParamErrorResult(
+                    ErrorUtil.getAllErrorMessages(bindingResult.getAllErrors())
+            );
+        }
+//        orderMasterService.save(orderMaster);
         return ResultGenerator.genSuccessResult();
     }
 
