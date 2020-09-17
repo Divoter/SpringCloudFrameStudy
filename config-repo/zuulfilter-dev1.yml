@@ -1,6 +1,11 @@
 server:
   port: 8010
-  
+spring: 
+  rabbitmq:  #rabbitmq配置
+    host: 192.168.187.128
+    username: admin
+    password: admin
+    port: 5672
   
 #自定义路由转发，默认通过微服务名称转发
 zuul:
