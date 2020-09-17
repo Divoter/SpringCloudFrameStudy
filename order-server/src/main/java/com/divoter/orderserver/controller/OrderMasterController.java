@@ -30,14 +30,14 @@ public class OrderMasterController {
     private OrderMasterService orderMasterService;
 
     @PostMapping
-    public Result add(@RequestBody @Valid OrderForm orderForm, BindingResult bindingResult) {
+    public Result add(@RequestBody OrderMaster orderMaster, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return ResultGenerator.genParamErrorResult(
                     ErrorUtil.getAllErrorMessages(bindingResult.getAllErrors())
             );
         }
 //        orderMasterService.save(orderMaster);
-        return ResultGenerator.genSuccessResult();
+        return orderMasterService.createOrder(orderMaster);
     }
 
     @DeleteMapping("/{id}")

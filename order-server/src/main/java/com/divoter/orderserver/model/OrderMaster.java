@@ -2,6 +2,7 @@ package com.divoter.orderserver.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "order_master")
@@ -44,13 +45,13 @@ public class OrderMaster {
      * 订单状态, 默认为新下单
      */
     @Column(name = "order_status")
-    private Byte orderStatus;
+    private Integer orderStatus;
 
     /**
      * 支付状态, 默认未支付
      */
     @Column(name = "pay_status")
-    private Byte payStatus;
+    private Integer payStatus;
 
     /**
      * 创建时间
@@ -173,7 +174,7 @@ public class OrderMaster {
      *
      * @return order_status - 订单状态, 默认为新下单
      */
-    public Byte getOrderStatus() {
+    public Integer getOrderStatus() {
         return orderStatus;
     }
 
@@ -182,7 +183,7 @@ public class OrderMaster {
      *
      * @param orderStatus 订单状态, 默认为新下单
      */
-    public void setOrderStatus(Byte orderStatus) {
+    public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -191,7 +192,7 @@ public class OrderMaster {
      *
      * @return pay_status - 支付状态, 默认未支付
      */
-    public Byte getPayStatus() {
+    public Integer getPayStatus() {
         return payStatus;
     }
 
@@ -200,7 +201,7 @@ public class OrderMaster {
      *
      * @param payStatus 支付状态, 默认未支付
      */
-    public void setPayStatus(Byte payStatus) {
+    public void setPayStatus(Integer payStatus) {
         this.payStatus = payStatus;
     }
 
@@ -238,5 +239,19 @@ public class OrderMaster {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    /**
+     * 订单详情（购物车）
+     */
+    @Transient
+    private List<OrderDetail> items;
+
+    public List<OrderDetail> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderDetail> items) {
+        this.items = items;
     }
 }
