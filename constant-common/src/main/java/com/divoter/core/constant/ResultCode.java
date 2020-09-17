@@ -23,7 +23,7 @@ public enum ResultCode {
     ,ERR_TOKEN(1003,"令牌错误！")
 
     //--------code 2000 +
-    ,FAIL(2000,"执行失败!")
+    ,FAIL(2000,"网络出错了，请稍后再试！")
     ,NO_ACCESS(2001,"没有权限！")
     ,REQ_TIMEOUT(2002,"请求超时！")
     ,REQ_PARAM_ERR(2003,"错误的参数！")
