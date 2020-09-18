@@ -33,9 +33,13 @@ public class ProductInfoController {
     }
 
     @PutMapping
-    public Result update(@RequestBody ProductInfo productInfo) {
-        productInfoService.update(productInfo);
-        return ResultGenerator.genSuccessResult();
+    public Result update(@RequestBody List<ProductInfo> productInfoList) {
+        Map<String,Object> map = new HashMap<>();
+        if(null!=productInfoList&&!productInfoList.isEmpty()){
+            map.put("methodName",productInfoList.get(0).getMnflg());
+        }
+        map.put("list",productInfoList);
+        return productInfoService.reflexMethodName(map);
     }
 
     @GetMapping("/{id}")
@@ -51,14 +55,14 @@ public class ProductInfoController {
             , @RequestParam(required = false) List<String> ids
     ) {
        Map<String,Object> map = new HashMap<>();
+       map.put("methodName",mnflg);
        map.put("page",page);
        map.put("size",size);
-       map.put("methodName",mnflg);
        map.put("id",id);
        map.put("name",name);
        map.put("id",status);
        map.put("categoryName",categoryName);
        map.put("ids",ids);
-       return productInfoService.list(map);
+       return productInfoService.reflexMethodName(map);
     }
 }

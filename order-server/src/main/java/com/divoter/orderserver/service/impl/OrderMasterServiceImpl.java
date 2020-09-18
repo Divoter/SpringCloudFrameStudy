@@ -1,12 +1,12 @@
 package com.divoter.orderserver.service.impl;
 
-import com.divoter.client.ProductClient;
 import com.divoter.core.Result;
 import com.divoter.core.ResultGenerator;
 import com.divoter.core.constant.OrderStatusEnum;
 import com.divoter.core.constant.PayStatusEnum;
 import com.divoter.core.constant.ResultCode;
 import com.divoter.form.OrderForm;
+import com.divoter.orderserver.client.ProductClient;
 import com.divoter.orderserver.core.AbstractService;
 import com.divoter.orderserver.dao.OrderMasterMapper;
 import com.divoter.orderserver.model.OrderDetail;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,14 +55,15 @@ public class OrderMasterServiceImpl extends AbstractService<OrderMaster> impleme
         if(!productResult.isSuccess()|| !ResultCode.SUCCESS.getCode().equals(productResult.getCode())){
             return productResult;
         }
-        List<Map<String,Object>> productList = (List<Map<String, Object>>) productResult.getData();
+        LinkedHashMap<String,Object> result = (LinkedHashMap<String, Object>) productResult.getData();
+        List<Map<String,Object>> productList = (List<Map<String, Object>>) result.get("list");
 
         //2.计算总价
         BigDecimal orderAmout = new BigDecimal(BigInteger.ZERO);
         for (OrderDetail orderDetail :orderMaster.getItems()) {
             for (Map<String,Object> productInfo: productList) {
                 //TODO 注意 前面回去的是object  后面是Bigdecimal  比较的时候要注意
-                if (productInfo.get("productPrice").equals(orderDetail.getProductPrice())) {
+//                if (productInfo.get("productPrice").equals(orderDetail.getProductPrice())) {
                     //单价*数量
                     orderAmout = new BigDecimal(productInfo.get("productPrice").toString())
                             .multiply(new BigDecimal(orderDetail.getProductQuantity()))
@@ -73,7 +74,7 @@ public class OrderMasterServiceImpl extends AbstractService<OrderMaster> impleme
                     //订单详情入库
 //                    orderDetailRepository.save(orderDetail);
                     orderDetailService.save(orderDetail);
-                }
+//                }
             }
         }
 
@@ -82,6 +83,10 @@ public class OrderMasterServiceImpl extends AbstractService<OrderMaster> impleme
         //4.订单入库
         orderMaster.setOrderId(orderId);
         orderMaster.setOrderAmount(orderAmout);
+        orderMaster.setBuyerName("test");
+        orderMaster.setBuyerAddress("test");
+        orderMaster.setBuyerPhone("17112345678");
+        orderMaster.setBuyerOpenid("uuid");
         orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
         orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
         save(orderMaster);

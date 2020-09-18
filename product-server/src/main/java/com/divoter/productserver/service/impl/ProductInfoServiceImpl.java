@@ -28,21 +28,14 @@ public class ProductInfoServiceImpl extends AbstractService<ProductInfo> impleme
     @Resource
     private ProductInfoMapper productInfoMapper;
 
-    /**
-     * controller采用restful规范，
-     * 因此具体的方法实现通过反射去调用
-     * 此为查询方法
-     * @param searchMap 查询条件
-     * @return
-     */
     @Override
-    public Result list(Map<String, Object> searchMap) {
+    public Result reflexMethodName(Map<String, Object> Map){
         try{
-            if(CommonUtil.isBlank(searchMap.get("methodName"))){
+            if(CommonUtil.isBlank(Map.get("methodName"))){
                 return ResultGenerator.genFailResult(ResultCode.FAIL);
             }
-            Method methodName = this.getClass().getDeclaredMethod(searchMap.get("methodName").toString(), Map.class);
-            return (Result) methodName.invoke(this,searchMap);
+            Method methodName = this.getClass().getDeclaredMethod(Map.get("methodName").toString(), Map.class);
+            return (Result) methodName.invoke(this,Map);
         }catch (Exception e){
             return ResultGenerator.genFailResult(ResultCode.FAIL);
         }
@@ -80,5 +73,14 @@ public class ProductInfoServiceImpl extends AbstractService<ProductInfo> impleme
         List<Map<String,Object>> list = productInfoMapper.findByAllConfition(searchMap);;
         PageInfo pageInfo = new PageInfo(list);
         return  ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    private Result deductStock(Map<String,Object> updateMap){
+        List<ProductInfo> productlist = (List<ProductInfo>) updateMap.get("list");
+        //先查询库存是否足够
+
+        //扣除库存
+
+        return  ResultGenerator.genSuccessResult(productlist);
     }
 }

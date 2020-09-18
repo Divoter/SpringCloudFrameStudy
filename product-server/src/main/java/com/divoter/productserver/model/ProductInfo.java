@@ -239,4 +239,15 @@ public class ProductInfo {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Transient
+    private String mnflg;
+
+    public String getMnflg() {
+        return mnflg;
+    }
+
+    public void setMnflg(String mnflg) {
+        this.mnflg = mnflg;
+    }
 }

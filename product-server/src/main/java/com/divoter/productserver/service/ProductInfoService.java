@@ -11,10 +11,11 @@ import java.util.Map;
  * Created by divoter on 2020/09/15.
  */
 public interface ProductInfoService extends Service<ProductInfo> {
+
     /**
-     * 根据条件查询
-     * @param searchMap 查询条件
+     * 方法反射调用
+     * @param searchMap
      * @return
      */
-    Result list(Map<String,Object> searchMap);
+    Result reflexMethodName(Map<String, Object> searchMap);
 }
