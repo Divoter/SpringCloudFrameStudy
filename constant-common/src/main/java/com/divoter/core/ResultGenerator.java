@@ -20,6 +20,13 @@ public class ResultGenerator {
                 .setMessage(DEFAULT_SUCCESS_MESSAGE)
                 .setData(data);
     }
+
+    public static  <T> Result<T> genSuccessResult(String msg, T data) {
+        return new Result()
+                .setCode(ResultCode.SUCCESS.getCode())
+                .setMessage(DEFAULT_SUCCESS_MESSAGE)
+                .setData(data);
+    }
     public static Result genFailResult(ResultCode resultCode) {
         return new Result()
                 .setCode(resultCode.getCode())
