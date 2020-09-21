@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,12 +76,38 @@ public class ProductInfoServiceImpl extends AbstractService<ProductInfo> impleme
         return  ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    /**
+     * 扣库存
+     * @param updateMap
+     * @return
+     */
     private Result deductStock(Map<String,Object> updateMap){
         List<ProductInfo> productlist = (List<ProductInfo>) updateMap.get("list");
         //先查询库存是否足够
-
-        //扣除库存
-
+        Result findResult = feignListById(updateMap);
+        List<String> errList = new ArrayList<>();
+        if(findResult.isSuccess() && ResultCode.SUCCESS.getCode().equals(findResult.getCode())){
+            //扣除库存
+            for (int i = 0; i < productlist.size(); i++) {
+                for (Object obj: ((PageInfo)findResult.getData()).getList()  ) {
+                    ProductInfo productInfo = (ProductInfo) obj;
+                    if(productlist.get(i).getProductId().equals(productInfo.getProductId())){//同一产品
+                        if(productlist.get(i).getProductStock().compareTo(productInfo.getProductStock())>=0){//库存足够
+                            Integer num = productlist.get(i).getProductStock() - productInfo.getProductStock();
+                            productInfo.setProductStock(num);
+                            productlist.get(i).setProductStock(num);
+                            update(productInfo);
+                        }else{
+                            errList.add(productInfo.getProductName());
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        if(!errList.isEmpty()){
+            return ResultGenerator.genSuccessResult(errList.toString(),productlist);
+        }
         return  ResultGenerator.genSuccessResult(productlist);
     }
 }
