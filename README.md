@@ -8,8 +8,7 @@ my first project for spring cloud frame.
 >>e.g.project constant /return code ...
 + ~~**mybatis-common:**~~
 >~~mybatis mapper plugin~~
->>~~e.g. Mapper-Plugin/model/Service-Plugin/serviceException ...~~
-    
+>>~~e.g. Mapper-Plugin/model/Service-Plugin/serviceException ...~~  
 >mybatis-common has some problems,it will be fixed in alater version.
 
 + **example**
