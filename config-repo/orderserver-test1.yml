@@ -3,17 +3,19 @@ server:
 spring:
   datasource: #数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver #com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.0.111:3306/SpringCloud_Sell?useUnicode=true&characterEncoding=utf-8
+    #url: jdbc:mysql://192.168.0.111:3306/SpringCloud_Sell?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.0.107:3306/SpringCloud_Sell?useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
     druid:
       connection-init-sqls: set names utf8mb4;
   rabbitmq:  #rabbitmq配置
-    host: 192.168.0.111
+    #host: 192.168.0.111
+    host: 192.168.0.107
     username: admin
     password: admin
     port: 5672
-env: test112
+env: test1
 gril:
   age: 2212
   name: lili
