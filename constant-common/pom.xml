@@ -43,7 +43,13 @@
             <version>${jakarta.validation.version}</version>
 <!--            <scope>compile</scope>-->
         </dependency>
-<!--   因为该版本不推荐使用@NotEmpty @NotBlank 因此使用  jakarta.validation-api 代替   -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--   因为该版本不推荐使用@NotEmpty @NotBlank 因此使用  jakarta.validation-api 代替   -->
         <!--        <dependency>-->
 <!--            <groupId>org.hibernate.validator</groupId>-->
 <!--            <artifactId>hibernate-validator</artifactId>-->
