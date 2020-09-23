@@ -5,7 +5,6 @@ import com.divoter.core.ResultGenerator;
 import com.divoter.core.constant.OrderStatusEnum;
 import com.divoter.core.constant.PayStatusEnum;
 import com.divoter.core.constant.ResultCode;
-import com.divoter.form.OrderForm;
 import com.divoter.orderserver.client.ProductClient;
 import com.divoter.orderserver.core.AbstractService;
 import com.divoter.orderserver.dao.OrderMasterMapper;
@@ -13,6 +12,8 @@ import com.divoter.orderserver.model.OrderDetail;
 import com.divoter.orderserver.model.OrderMaster;
 import com.divoter.orderserver.service.OrderDetailService;
 import com.divoter.orderserver.service.OrderMasterService;
+import com.divoter.productserver.model.ProductInfo;
+import com.divoter.util.CommonUtil;
 import com.divoter.util.KeyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +57,12 @@ public class OrderMasterServiceImpl extends AbstractService<OrderMaster> impleme
         if(!productResult.isSuccess()|| !ResultCode.SUCCESS.getCode().equals(productResult.getCode())){
             return productResult;
         }
+        //获取查询到的商品信息
         LinkedHashMap<String,Object> result = (LinkedHashMap<String, Object>) productResult.getData();
         List<Map<String,Object>> productList = (List<Map<String, Object>>) result.get("list");
+
+        //待扣库存列表
+        List<ProductInfo> deductStocklist = new ArrayList<>();
 
         //2.计算总价
         BigDecimal orderAmout = new BigDecimal(BigInteger.ZERO);
@@ -79,17 +85,21 @@ public class OrderMasterServiceImpl extends AbstractService<OrderMaster> impleme
         }
 
         //3.扣库存(调用商品服务)
+        Result deductStockResult = productClient.deductStock(deductStocklist);
+        if(deductStockResult.isSuccess()&& CommonUtil.isBlank(deductStockResult.getMessage())){
+            //4.订单入库
+            orderMaster.setOrderId(orderId);
+            orderMaster.setOrderAmount(orderAmout);
+            orderMaster.setBuyerName("test");
+            orderMaster.setBuyerAddress("test");
+            orderMaster.setBuyerPhone("17112345678");
+            orderMaster.setBuyerOpenid("uuid");
+            orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
+            orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
+            save(orderMaster);
+            return ResultGenerator.genSuccessResult(orderMaster);
+        }
+        return  deductStockResult;
 
-        //4.订单入库
-        orderMaster.setOrderId(orderId);
-        orderMaster.setOrderAmount(orderAmout);
-        orderMaster.setBuyerName("test");
-        orderMaster.setBuyerAddress("test");
-        orderMaster.setBuyerPhone("17112345678");
-        orderMaster.setBuyerOpenid("uuid");
-        orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
-        orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
-        save(orderMaster);
-        return ResultGenerator.genSuccessResult(orderMaster);
     }
 }

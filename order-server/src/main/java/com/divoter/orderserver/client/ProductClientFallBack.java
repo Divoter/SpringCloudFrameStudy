@@ -3,6 +3,7 @@ package com.divoter.orderserver.client;
 import com.divoter.core.Result;
 import com.divoter.core.ResultGenerator;
 import com.divoter.core.constant.ResultCode;
+import com.divoter.productserver.model.ProductInfo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +23,11 @@ public class ProductClientFallBack implements ProductClient {
             , @RequestParam String mnflg, @RequestParam String id , @RequestParam String name
             , @RequestParam Integer status , @RequestParam String categoryName
             , @RequestParam List<String> ids) {
+        return ResultGenerator.genFailResult(ResultCode.FAIL);
+    }
+
+    @Override
+    public Result deductStock(List<ProductInfo> productInfoList) {
         return ResultGenerator.genFailResult(ResultCode.FAIL);
     }
 }

@@ -1,8 +1,11 @@
 package com.divoter.orderserver.client;
 
 import com.divoter.core.Result;
+import com.divoter.productserver.model.ProductInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -21,4 +24,7 @@ public interface ProductClient {
             , @RequestParam String mnflg, @RequestParam String id , @RequestParam String name
             , @RequestParam Integer status , @RequestParam String categoryName
             , @RequestParam List<String> ids);
+
+    @PutMapping("/api/v1/product/info")
+    Result deductStock(@RequestBody List<ProductInfo> productInfoList);
 }

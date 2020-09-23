@@ -60,7 +60,7 @@ public class ProductInfoController {
        map.put("size",size);
        map.put("id",id);
        map.put("name",name);
-       map.put("id",status);
+       map.put("status",status);
        map.put("categoryName",categoryName);
        map.put("ids",ids);
        return productInfoService.reflexMethodName(map);

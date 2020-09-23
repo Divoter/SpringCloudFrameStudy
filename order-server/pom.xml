@@ -147,7 +147,7 @@
 		</dependency>
 
 
-	</dependencies>
+    </dependencies>
 	<repositories>
 		<repository>
 			<id>getui-nexus</id>
