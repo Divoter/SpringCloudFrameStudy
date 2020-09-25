@@ -257,4 +257,21 @@ public class OrderMaster {
     public void setItems(List<OrderDetail> items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        return "OrderMaster{" +
+                "orderId='" + orderId + '\'' +
+                ", buyerName='" + buyerName + '\'' +
+                ", buyerPhone='" + buyerPhone + '\'' +
+                ", buyerAddress='" + buyerAddress + '\'' +
+                ", buyerOpenid='" + buyerOpenid + '\'' +
+                ", orderAmount=" + orderAmount +
+                ", orderStatus=" + orderStatus +
+                ", payStatus=" + payStatus +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", items=" + items +
+                '}';
+    }
 }
