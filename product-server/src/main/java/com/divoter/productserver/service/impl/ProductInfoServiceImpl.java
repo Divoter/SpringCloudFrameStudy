@@ -8,8 +8,13 @@ import com.divoter.productserver.dao.ProductInfoMapper;
 import com.divoter.productserver.model.ProductInfo;
 import com.divoter.productserver.service.ProductInfoService;
 import com.divoter.util.CommonUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -28,6 +34,8 @@ import java.util.Map;
 public class ProductInfoServiceImpl extends AbstractService<ProductInfo> implements ProductInfoService {
     @Resource
     private ProductInfoMapper productInfoMapper;
+    @Resource
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public Result reflexMethodName(Map<String, Object> Map){
@@ -68,8 +76,8 @@ public class ProductInfoServiceImpl extends AbstractService<ProductInfo> impleme
      * @return
      */
     private Result findList(Map<String,Object> searchMap){
-        int page = Integer.parseInt(searchMap.get("page").toString());
-        int size = Integer.parseInt(searchMap.get("size").toString());
+        int page = CommonUtil.isBlank(searchMap.get("page"))?0:Integer.parseInt(searchMap.get("page").toString());
+        int size = CommonUtil.isBlank(searchMap.get("size"))?0:Integer.parseInt(searchMap.get("size").toString());
         PageHelper.startPage(page,size);
         List<Map<String,Object>> list = productInfoMapper.findByAllConfition(searchMap);;
         PageInfo pageInfo = new PageInfo(list);
@@ -81,30 +89,50 @@ public class ProductInfoServiceImpl extends AbstractService<ProductInfo> impleme
      * @param updateMap
      * @return
      */
-    private Result deductStock(Map<String,Object> updateMap){
+    protected Result deductStock(Map<String,Object> updateMap){
         List<ProductInfo> productlist = (List<ProductInfo>) updateMap.get("list");
+        if(CommonUtil.isBlank(updateMap.get("ids"))){
+            if(null!=productlist && !productlist.isEmpty()){
+                updateMap.put("ids",productlist
+                        .stream()
+                        .map(p->p.getProductId())
+                        .collect(Collectors.toList()));
+            }else{
+                // 发送mq消息
+                amqpTemplate.convertAndSend("productInfo", "扣库存失败！");
+                return ResultGenerator.genFailResult(ResultCode.REQ_PARAM_ERR);
+            }
+        }
         //先查询库存是否足够
         Result findResult = feignListById(updateMap);
         List<String> errList = new ArrayList<>();
         if(findResult.isSuccess() && ResultCode.SUCCESS.getCode().equals(findResult.getCode())){
             //扣除库存
             for (int i = 0; i < productlist.size(); i++) {
+                ProductInfo upProductInfo = productlist.get(i);
                 for (Object obj: ((PageInfo)findResult.getData()).getList()  ) {
-                    ProductInfo productInfo = (ProductInfo) obj;
-                    if(productlist.get(i).getProductId().equals(productInfo.getProductId())){//同一产品
-                        if(productlist.get(i).getProductStock().compareTo(productInfo.getProductStock())>=0){//库存足够
-                            Integer num = productlist.get(i).getProductStock() - productInfo.getProductStock();
-                            productInfo.setProductStock(num);
-                            productlist.get(i).setProductStock(num);
-                            update(productInfo);
+                    Map<String,Object> productInfo = (Map<String, Object>) obj;
+                    if(upProductInfo.getProductId().equals(productInfo.get("productId"))){//同一产品
+                        if(Integer.valueOf(productInfo.get("productStock").toString()).compareTo(upProductInfo.getProductStock())>=0){//库存足够
+                            Integer num = Integer.valueOf(productInfo.get("productStock").toString()) - upProductInfo.getProductStock();
+                            productInfo.put("productStock",num);
+                            upProductInfo.setProductStock(num);
+                            update(upProductInfo);
                         }else{
-                            errList.add(productInfo.getProductName());
+                            errList.add(productInfo.get("productName").toString());
                         }
                         break;
                     }
                 }
             }
         }
+        String message = "";
+        try {
+            message = new ObjectMapper().writeValueAsString(productlist);
+        } catch (JsonProcessingException e) {
+        }
+        // 发送mq消息
+        amqpTemplate.convertAndSend("productInfo", message);
         if(!errList.isEmpty()){
             return ResultGenerator.genSuccessResult(errList.toString(),productlist);
         }

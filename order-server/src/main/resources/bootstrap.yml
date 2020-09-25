@@ -6,11 +6,16 @@ spring:
       discovery:
         enabled: true
         service-id: CONFIGSERVER
-      profile: test1 #与配置中心 文件后缀一致  比如 orderserver-dev1.yml
+      profile: dev1 #与配置中心 文件后缀一致  比如 orderserver-dev1.yml
+    stream:
+      binders:
+        myMessage: #消息队列名名称
+          group: order #自定义分组名称  可以保证只被消费一次
+          content-type: application/json #rabbitmq web端以json格式显示数据
+
 #一直报错Could not locate configserver via discovery
 #eureka的地址为http://localhost:8761/eureka/
 #猜测是服务需要先注册到eureka再去寻找configserver，所以将eureka配置从配置中心 拿到这里来
-
 eureka:
   client:
     service-url:  #注册中心
