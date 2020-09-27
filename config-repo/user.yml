@@ -8,3 +8,4 @@ spring:
 logging:
   level:
     org.springframework.web: TRACE
+    com.divoter.user: debug
