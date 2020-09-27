@@ -37,6 +37,7 @@ public class ZuulPreFilter extends ZuulFilter {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
         String token = request.getParameter("token");
+//        String accessToken = request.getHeader("Authorization");
         if(StringUtils.isBlank(token)){
             requestContext.setSendZuulResponse(false);
             requestContext.setResponseStatusCode(401);
