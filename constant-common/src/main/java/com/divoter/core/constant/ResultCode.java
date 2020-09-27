@@ -13,7 +13,7 @@ public enum ResultCode {
 
     //--------code 400 +
     ,NOT_FOUND(404,"不存在！")
-
+    ,LOGIN_FAIL(400,"登录失败！")
     //--------code 500 +
     ,INTERNAL_SERVER_ERROR(500,"服务器内部错误，请联系管理员！")
 
