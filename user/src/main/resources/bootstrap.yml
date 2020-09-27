@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: user  #微服务名称 与配置中心 文件前缀一致  比如 orderserver-dev1.yml
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIGSERVER
+      profile: dev1 #与配置中心 文件后缀一致  比如 orderserver-dev1.yml
+
+eureka:
+  client:
+    service-url:  #注册中心
+      defaultZone: http://localhost:8000/eureka/      #,http://localhost:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
