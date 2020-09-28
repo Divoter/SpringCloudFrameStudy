@@ -1,0 +1,7 @@
+server:
+  port: 8010
+spring: 
+  redis:
+    host: 192.168.187.128
+    port: 6379
+env: dev1
