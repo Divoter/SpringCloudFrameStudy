@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -74,5 +75,12 @@ public class JdbcAuthorizationServerConfiguration extends AuthorizationServerCon
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // 配置token数据源 内存模式不需要
         endpoints.tokenStore(tokenStore());
+    }
+
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.allowFormAuthenticationForClients();
+        // 设置 uri: /oauth/check_token 可以通过访问
+        security.checkTokenAccess("permitAll()");
     }
 }
